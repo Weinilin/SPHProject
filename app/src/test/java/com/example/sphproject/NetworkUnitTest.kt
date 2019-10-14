@@ -170,7 +170,6 @@ class NetworkUnitTest {
         assertEquals(
             response?.help.toString(),
             ("https://data.gov.sg/api/3/action/help_show?name=datastore_search"))
-
     }
 
     @Test
@@ -190,7 +189,6 @@ class NetworkUnitTest {
         mockWebServer.enqueue(MockResponse().setResponseCode(404))
         val response = apiService.getNewsList(source, key).execute().message()
 
-//        mockWebServer.takeRequest()
         assertEquals(response, "Client Error")
     }
 
@@ -199,7 +197,6 @@ class NetworkUnitTest {
         mockWebServer.enqueue(MockResponse().setResponseCode(500))
         val response = apiService.getNewsList(source, key).execute().message()
 
-//        mockWebServer.takeRequest()
         assertEquals(response, "Server Error")
     }
 }

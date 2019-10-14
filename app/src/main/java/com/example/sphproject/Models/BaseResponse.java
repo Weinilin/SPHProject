@@ -3,11 +3,13 @@ package com.example.sphproject.Models;
 import okhttp3.ResponseBody;
 
 public class BaseResponse {
-    public DataResponse serviceResponse;
-    public ResponseBody errorResponse;
+    public DataResponse serviceResponse = null;
+    public String errorMsg = null;
+    public Boolean isSuccess = true;
 
-    public BaseResponse(DataResponse serviceResponse, ResponseBody errorResponse) {
+    public BaseResponse(DataResponse serviceResponse, String errorMsg,  Boolean isSuccess) {
         this.serviceResponse = serviceResponse;
-        this.errorResponse = errorResponse;
+        this.errorMsg = errorMsg;
+        this.isSuccess = isSuccess;
     }
 }

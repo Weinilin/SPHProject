@@ -1,4 +1,4 @@
-package com.example.sphproj.Repository
+package com.example.sphproject.Repository
 
 import androidx.lifecycle.MutableLiveData
 import com.example.sphproject.DataApi
@@ -29,33 +29,22 @@ class MobileDataRepository {
 
                     newsData.setValue(
                         BaseResponse(
-                            response.body(), response.errorBody()
+                            response.body(), response.message(), true
                         )
                     )
                 } else {
                     newsData.setValue( BaseResponse(
-                        response.body(), response.errorBody()
+                        response.body(), response.message(), false
                     ))
                 }
             }
 
             override fun onFailure(call: Call<DataResponse>, t: Throwable) {
-                newsData.setValue(null)
+                newsData.setValue( BaseResponse(
+                   null, t.message, false
+                ))
             }
         })
         return newsData
-    }
-
-    companion object {
-
-        private var mobileDataRepository: MobileDataRepository? = null
-
-        val instance: MobileDataRepository
-            get() {
-                if (mobileDataRepository == null) {
-                    mobileDataRepository = MobileDataRepository()
-                }
-                return mobileDataRepository as MobileDataRepository
-            }
     }
 }

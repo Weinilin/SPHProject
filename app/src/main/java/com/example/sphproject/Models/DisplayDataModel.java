@@ -1,4 +1,4 @@
-package com.example.sphproject.Responses;
+package com.example.sphproject.Models;
 
 public class DisplayDataModel {
     public String year;

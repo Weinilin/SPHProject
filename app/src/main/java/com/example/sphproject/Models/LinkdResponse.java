@@ -1,4 +1,4 @@
-package com.example.sphproject.Responses;
+package com.example.sphproject.Models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

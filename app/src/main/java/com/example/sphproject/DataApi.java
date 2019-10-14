@@ -1,6 +1,6 @@
 package com.example.sphproject;
 
-import com.example.sphproject.Responses.DataResponse;
+import com.example.sphproject.Models.DataResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -69,15 +69,16 @@ class MainActivity : AppCompatActivity() {
                 volumes = response.get(i).volume_of_mobile_data.toDouble()
                 tempVol = volumes
                 hasDecresedVol = false
-                if (i == response.size - 1)
-                    displayDataArray.add(
-                        DisplayDataModel(
-                            tempYear,
-                            volumes.toString(),
-                            hasDecresedVol
-                        )
-                    )
+
             }
+            if (i == response.size - 1)
+                displayDataArray.add(
+                    DisplayDataModel(
+                        tempYear,
+                        volumes.toString(),
+                        hasDecresedVol
+                    )
+                )
         }
         return displayDataArray
     }

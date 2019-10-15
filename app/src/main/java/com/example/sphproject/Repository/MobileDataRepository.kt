@@ -20,7 +20,7 @@ class MobileDataRepository {
 
     fun getMobileVolData(source: String, key: String): MutableLiveData<BaseResponse> {
         val newsData = MutableLiveData<BaseResponse>()
-        dataApi.getNewsList(source, key).enqueue(object : Callback<DataResponse> {
+        dataApi.getMobileVol(source, key).enqueue(object : Callback<DataResponse> {
             override fun onResponse(
                 call: Call<DataResponse>,
                 response: Response<DataResponse>

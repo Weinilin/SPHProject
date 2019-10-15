@@ -7,8 +7,11 @@ import org.junit.runner.RunWith
 import android.content.Intent
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import org.hamcrest.Matchers.not
 
 
 @RunWith(AndroidJUnit4::class)
@@ -64,21 +67,6 @@ class MainActivityUnitTest {
                 )
             )
     }
-
-    @Test
-    fun checkOnClick() {
-        // Assign
-        mActivityRule.launchActivity(Intent())
-
-        onView(
-            RecyclerViewMatcher(R.id.list)
-                .atPositionOnView(9, R.id.imageview)
-        ).perform(click());
-
-        onView(withText(R.string.toast_text)).inRoot(withDecorView(not(is(activity.getWindow().getDecorView())))).
-        check(matches(isDisplayed()));
-    }
-
 }
 
 

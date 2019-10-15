@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 public class DataResponse implements Parcelable {
-
     @SerializedName("help")
     public String help;
 

@@ -10,7 +10,7 @@ import com.example.sphproject.Models.BaseResponse
 class MobileDataViewModel(application: Application) : AndroidViewModel(application) {
 
 
-    private var mutableLiveData: MutableLiveData<BaseResponse>? = null
+     var mutableLiveData: MutableLiveData<BaseResponse>? = null
     private var mobileDataRepository: MobileDataRepository? = null
 
     fun init() {
@@ -18,9 +18,11 @@ class MobileDataViewModel(application: Application) : AndroidViewModel(applicati
             return
         }
         mobileDataRepository = MobileDataRepository()
+
+        mutableLiveData = mobileDataRepository?.getMobileVolData("a807b7ab-6cad-4aa6-87d0-e283a7353a0f", "59")
     }
 
     fun getMobileVolData(): MutableLiveData<BaseResponse>? {
-        return mobileDataRepository?.getMobileVolData("a807b7ab-6cad-4aa6-87d0-e283a7353a0f", "59")
+        return mutableLiveData
     }
 }

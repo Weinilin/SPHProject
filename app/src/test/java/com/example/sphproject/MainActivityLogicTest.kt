@@ -72,7 +72,7 @@ class MainActivityLogicTest {
 
     @Test
     fun testCalculationsForData3() {
-        val expectedSum = (1.1+2.1+2.1).toString()
+        val expectedSum = (3.1+2.1+2.1).toString()
         val expectedSum1 = (2.1+2.1).toString()
 
         val displayDataModel : ArrayList<DisplayDataModel> = mainActivity.addQuarterData(data3)

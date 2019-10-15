@@ -17,19 +17,35 @@ import org.junit.runner.RunWith
  */
 class MainActivityLogicTest {
     val mainActivity = MainActivity()
-    val arr: ArrayList<RecordsResponse> = arrayListOf()
+    val data1: ArrayList<RecordsResponse> = arrayListOf()
+    val data2: ArrayList<RecordsResponse> = arrayListOf()
+    val data3: ArrayList<RecordsResponse> = arrayListOf()
 
     @Before
     fun setup() {
-        arr.add(RecordsResponse("1.1", "2009-1",1))
-        arr.add(RecordsResponse("3.1", "2009-2",2))
-        arr.add(RecordsResponse("2.1", "2009-3",3))
-        arr.add(RecordsResponse("2.1", "2010-1",4))
+        data1.add(RecordsResponse("1.1", "2009-1",1))
+        data1.add(RecordsResponse("3.1", "2009-2",2))
+        data1.add(RecordsResponse("2.1", "2009-3",3))
+        data1.add(RecordsResponse("2.1", "2010-1",4))
+
+        data2.add(RecordsResponse("1.1", "2009-1",1))
+        data2.add(RecordsResponse("3.1", "2010-2",2))
+        data2.add(RecordsResponse("2.1", "2010-3",3))
+        data2.add(RecordsResponse("2.1", "2010-1",4))
+
+        data3.add(RecordsResponse("1.1", "2009-1",1))
+        data3.add(RecordsResponse("3.1", "2010-2",2))
+        data3.add(RecordsResponse("2.1", "2010-3",3))
+        data3.add(RecordsResponse("2.1", "2010-1",4))
+        data3.add(RecordsResponse("1.1", "2011-1",1))
+        data3.add(RecordsResponse("3.1", "2012-2",2))
+        data3.add(RecordsResponse("2.1", "2013-3",3))
+        data3.add(RecordsResponse("2.1", "2013-1",4))
     }
     @Test
-    fun testCalculations() {
+    fun testCalculationsForData1() {
         val expectedSum = (1.1+3.1+2.1).toString()
-        val displayDataModel : ArrayList<DisplayDataModel> = mainActivity.addQuarterData(arr)
+        val displayDataModel : ArrayList<DisplayDataModel> = mainActivity.addQuarterData(data1)
         Assert.assertEquals(displayDataModel[0].totalVol, expectedSum)
         Assert.assertEquals(displayDataModel[0].year, "2009")
         Assert.assertEquals(displayDataModel[0].hasDecreaseVol, true)
@@ -37,6 +53,48 @@ class MainActivityLogicTest {
         Assert.assertEquals(displayDataModel[1].year, "2010")
         Assert.assertEquals(displayDataModel[1].totalVol, "2.1")
         Assert.assertEquals(displayDataModel[1].hasDecreaseVol, false)
+    }
+
+    @Test
+    fun testCalculationsForData2() {
+        val expectedSum = (1.1).toString()
+        val expectedSum1 = (3.1 + 2.1 + 2.1).toString()
+
+        val displayDataModel : ArrayList<DisplayDataModel> = mainActivity.addQuarterData(data2)
+        Assert.assertEquals(displayDataModel[0].totalVol, expectedSum)
+        Assert.assertEquals(displayDataModel[0].year, "2009")
+        Assert.assertEquals(displayDataModel[0].hasDecreaseVol, false)
+
+        Assert.assertEquals(displayDataModel[1].year, "2010")
+        Assert.assertEquals(displayDataModel[1].totalVol, expectedSum1)
+        Assert.assertEquals(displayDataModel[1].hasDecreaseVol, false)
+    }
+
+    @Test
+    fun testCalculationsForData3() {
+        val expectedSum = (1.1+2.1+2.1).toString()
+        val expectedSum1 = (2.1+2.1).toString()
+
+        val displayDataModel : ArrayList<DisplayDataModel> = mainActivity.addQuarterData(data3)
+        Assert.assertEquals(displayDataModel[0].totalVol, "1.1")
+        Assert.assertEquals(displayDataModel[0].year, "2009")
+        Assert.assertEquals(displayDataModel[0].hasDecreaseVol, false)
+
+        Assert.assertEquals(displayDataModel[1].year, "2010")
+        Assert.assertEquals(displayDataModel[1].totalVol, expectedSum)
+        Assert.assertEquals(displayDataModel[1].hasDecreaseVol, false)
+
+        Assert.assertEquals(displayDataModel[2].year, "2011")
+        Assert.assertEquals(displayDataModel[2].totalVol, "1.1")
+        Assert.assertEquals(displayDataModel[2].hasDecreaseVol, false)
+
+        Assert.assertEquals(displayDataModel[3].year, "2012")
+        Assert.assertEquals(displayDataModel[3].totalVol, "3.1")
+        Assert.assertEquals(displayDataModel[3].hasDecreaseVol, false)
+
+        Assert.assertEquals(displayDataModel[4].year, "2013")
+        Assert.assertEquals(displayDataModel[4].totalVol, expectedSum1)
+        Assert.assertEquals(displayDataModel[4].hasDecreaseVol, false)
     }
 
     @Test

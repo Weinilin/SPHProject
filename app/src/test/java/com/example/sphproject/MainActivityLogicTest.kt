@@ -20,6 +20,7 @@ class MainActivityLogicTest {
     val data1: ArrayList<RecordsResponse> = arrayListOf()
     val data2: ArrayList<RecordsResponse> = arrayListOf()
     val data3: ArrayList<RecordsResponse> = arrayListOf()
+    val data4: ArrayList<RecordsResponse> = arrayListOf()
 
     @Before
     fun setup() {
@@ -41,18 +42,45 @@ class MainActivityLogicTest {
         data3.add(RecordsResponse("3.1", "2012-2",2))
         data3.add(RecordsResponse("2.1", "2013-3",3))
         data3.add(RecordsResponse("2.1", "2013-1",4))
+
+        data4.add(RecordsResponse("1.1", "2009-1",1))
+        data4.add(RecordsResponse("13.555", "2010-2",2))
+        data4.add(RecordsResponse("55211.44", "2013-3",3))
+        data4.add(RecordsResponse("8810", "2019-1",4))
+    }
+
+    @Test
+    fun testCalculationsForData4() {
+        val displayDataModel : ArrayList<DisplayDataModel> = mainActivity.addQuarterData(data4)
+        assertEquals(displayDataModel[0].totalVol, "1.1")
+        assertEquals(displayDataModel[0].year, "2009")
+        assertEquals(displayDataModel[0].hasDecreaseVol, false)
+
+        assertEquals(displayDataModel[1].year, "2010")
+        assertEquals(displayDataModel[1].totalVol, "13.555")
+        assertEquals(displayDataModel[1].hasDecreaseVol, false)
+
+
+        assertEquals(displayDataModel[2].year, "2013")
+        assertEquals(displayDataModel[2].totalVol, "55211.44")
+        assertEquals(displayDataModel[2].hasDecreaseVol, false)
+
+
+        assertEquals(displayDataModel[3].year, "2019")
+        assertEquals(displayDataModel[3].totalVol, "8810.0")
+        assertEquals(displayDataModel[3].hasDecreaseVol, false)
     }
     @Test
     fun testCalculationsForData1() {
         val expectedSum = (1.1+3.1+2.1).toString()
         val displayDataModel : ArrayList<DisplayDataModel> = mainActivity.addQuarterData(data1)
-        Assert.assertEquals(displayDataModel[0].totalVol, expectedSum)
-        Assert.assertEquals(displayDataModel[0].year, "2009")
-        Assert.assertEquals(displayDataModel[0].hasDecreaseVol, true)
+        assertEquals(displayDataModel[0].totalVol, expectedSum)
+        assertEquals(displayDataModel[0].year, "2009")
+        assertEquals(displayDataModel[0].hasDecreaseVol, true)
 
-        Assert.assertEquals(displayDataModel[1].year, "2010")
-        Assert.assertEquals(displayDataModel[1].totalVol, "2.1")
-        Assert.assertEquals(displayDataModel[1].hasDecreaseVol, false)
+        assertEquals(displayDataModel[1].year, "2010")
+        assertEquals(displayDataModel[1].totalVol, "2.1")
+        assertEquals(displayDataModel[1].hasDecreaseVol, false)
     }
 
     @Test
@@ -61,13 +89,13 @@ class MainActivityLogicTest {
         val expectedSum1 = (3.1 + 2.1 + 2.1).toString()
 
         val displayDataModel : ArrayList<DisplayDataModel> = mainActivity.addQuarterData(data2)
-        Assert.assertEquals(displayDataModel[0].totalVol, expectedSum)
-        Assert.assertEquals(displayDataModel[0].year, "2009")
-        Assert.assertEquals(displayDataModel[0].hasDecreaseVol, false)
+        assertEquals(displayDataModel[0].totalVol, expectedSum)
+        assertEquals(displayDataModel[0].year, "2009")
+        assertEquals(displayDataModel[0].hasDecreaseVol, false)
 
-        Assert.assertEquals(displayDataModel[1].year, "2010")
-        Assert.assertEquals(displayDataModel[1].totalVol, expectedSum1)
-        Assert.assertEquals(displayDataModel[1].hasDecreaseVol, false)
+        assertEquals(displayDataModel[1].year, "2010")
+        assertEquals(displayDataModel[1].totalVol, expectedSum1)
+        assertEquals(displayDataModel[1].hasDecreaseVol, false)
     }
 
     @Test
@@ -76,25 +104,25 @@ class MainActivityLogicTest {
         val expectedSum1 = (2.1+2.1).toString()
 
         val displayDataModel : ArrayList<DisplayDataModel> = mainActivity.addQuarterData(data3)
-        Assert.assertEquals(displayDataModel[0].totalVol, "1.1")
-        Assert.assertEquals(displayDataModel[0].year, "2009")
-        Assert.assertEquals(displayDataModel[0].hasDecreaseVol, false)
+        assertEquals(displayDataModel[0].totalVol, "1.1")
+        assertEquals(displayDataModel[0].year, "2009")
+        assertEquals(displayDataModel[0].hasDecreaseVol, false)
 
-        Assert.assertEquals(displayDataModel[1].year, "2010")
-        Assert.assertEquals(displayDataModel[1].totalVol, expectedSum)
-        Assert.assertEquals(displayDataModel[1].hasDecreaseVol, false)
+        assertEquals(displayDataModel[1].year, "2010")
+        assertEquals(displayDataModel[1].totalVol, expectedSum)
+        assertEquals(displayDataModel[1].hasDecreaseVol, false)
 
-        Assert.assertEquals(displayDataModel[2].year, "2011")
-        Assert.assertEquals(displayDataModel[2].totalVol, "1.1")
-        Assert.assertEquals(displayDataModel[2].hasDecreaseVol, false)
+        assertEquals(displayDataModel[2].year, "2011")
+        assertEquals(displayDataModel[2].totalVol, "1.1")
+        assertEquals(displayDataModel[2].hasDecreaseVol, false)
 
-        Assert.assertEquals(displayDataModel[3].year, "2012")
-        Assert.assertEquals(displayDataModel[3].totalVol, "3.1")
-        Assert.assertEquals(displayDataModel[3].hasDecreaseVol, false)
+        assertEquals(displayDataModel[3].year, "2012")
+        assertEquals(displayDataModel[3].totalVol, "3.1")
+        assertEquals(displayDataModel[3].hasDecreaseVol, false)
 
-        Assert.assertEquals(displayDataModel[4].year, "2013")
-        Assert.assertEquals(displayDataModel[4].totalVol, expectedSum1)
-        Assert.assertEquals(displayDataModel[4].hasDecreaseVol, false)
+        assertEquals(displayDataModel[4].year, "2013")
+        assertEquals(displayDataModel[4].totalVol, expectedSum1)
+        assertEquals(displayDataModel[4].hasDecreaseVol, false)
     }
 
     @Test
@@ -102,7 +130,7 @@ class MainActivityLogicTest {
         val mainActivity = MainActivity()
 
         val year = mainActivity.getYear("2009-8")
-        Assert.assertEquals(year, "2009")
+        assertEquals(year, "2009")
     }
 
     @Test
@@ -110,7 +138,7 @@ class MainActivityLogicTest {
         val mainActivity = MainActivity()
 
         val year = mainActivity.getYear("20098")
-        Assert.assertEquals(year, "")
+        assertEquals(year, "")
     }
 
     @Test
@@ -118,7 +146,7 @@ class MainActivityLogicTest {
         val mainActivity = MainActivity()
 
         val hasDecreasedVol = mainActivity.hasDecreasedVol(8888.255, 4444.4)
-        Assert.assertEquals(hasDecreasedVol, true)
+        assertEquals(hasDecreasedVol, true)
     }
 
 }

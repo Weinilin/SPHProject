@@ -12,7 +12,8 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 
 
 @RunWith(AndroidJUnit4::class)
-class MainActivityUnitTest { private val baseUrl = "https://data.gov.sg/api/action/"
+class MainActivityUnitTest {
+    private val baseUrl = "https://data.gov.sg/api/action/"
 
     @get:Rule
     var mActivityRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
@@ -62,6 +63,20 @@ class MainActivityUnitTest { private val baseUrl = "https://data.gov.sg/api/acti
                     (withEffectiveVisibility(Visibility.VISIBLE))
                 )
             )
+    }
+
+    @Test
+    fun checkOnClick() {
+        // Assign
+        mActivityRule.launchActivity(Intent())
+
+        onView(
+            RecyclerViewMatcher(R.id.list)
+                .atPositionOnView(9, R.id.imageview)
+        ).perform(click());
+
+        onView(withText(R.string.toast_text)).inRoot(withDecorView(not(is(activity.getWindow().getDecorView())))).
+        check(matches(isDisplayed()));
     }
 
 }

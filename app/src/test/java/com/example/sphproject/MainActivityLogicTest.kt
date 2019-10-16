@@ -41,12 +41,12 @@ class MainActivityLogicTest {
         data3.add(RecordsResponse("1.1", "2011-1",1))
         data3.add(RecordsResponse("3.1", "2012-2",2))
         data3.add(RecordsResponse("2.1", "2013-3",3))
-        data3.add(RecordsResponse("2.1", "2013-1",4))
+        data3.add(RecordsResponse("1.1", "2013-1",4))
 
         data4.add(RecordsResponse("1.1", "2009-1",1))
         data4.add(RecordsResponse("13.555", "2010-2",2))
         data4.add(RecordsResponse("55211.44", "2013-3",3))
-        data4.add(RecordsResponse("8810", "2019-1",4))
+        data4.add(RecordsResponse("1810", "2019-1",4))
     }
 
     @Test
@@ -67,7 +67,7 @@ class MainActivityLogicTest {
 
 
         assertEquals(displayDataModel[3].year, "2019")
-        assertEquals(displayDataModel[3].totalVol, "8810.0")
+        assertEquals(displayDataModel[3].totalVol, "1810.0")
         assertEquals(displayDataModel[3].hasDecreaseVol, false)
     }
     @Test
@@ -101,7 +101,7 @@ class MainActivityLogicTest {
     @Test
     fun testCalculationsForData3() {
         val expectedSum = (3.1+2.1+2.1).toString()
-        val expectedSum1 = (2.1+2.1).toString()
+        val expectedSum1 = (2.1+1.1).toString()
 
         val displayDataModel : ArrayList<DisplayDataModel> = mainActivity.addQuarterData(data3)
         assertEquals(displayDataModel[0].totalVol, "1.1")
@@ -122,7 +122,7 @@ class MainActivityLogicTest {
 
         assertEquals(displayDataModel[4].year, "2013")
         assertEquals(displayDataModel[4].totalVol, expectedSum1)
-        assertEquals(displayDataModel[4].hasDecreaseVol, false)
+        assertEquals(displayDataModel[4].hasDecreaseVol, true)
     }
 
     @Test

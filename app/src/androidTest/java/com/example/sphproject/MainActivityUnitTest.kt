@@ -11,15 +11,24 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
+import com.example.sphproject.Models.RecordsResponse
 import org.hamcrest.Matchers.not
 
 
 @RunWith(AndroidJUnit4::class)
 class MainActivityUnitTest {
-    private val baseUrl = "https://data.gov.sg/api/action/"
-
+    val data: ArrayList<RecordsResponse> = arrayListOf()
     @get:Rule
     var mActivityRule: ActivityTestRule<MainActivity> = ActivityTestRule(MainActivity::class.java)
+
+    @Before
+    fun setUp() {
+        data.add(RecordsResponse("1.2", "2009-1", 1))
+        data.add(RecordsResponse("12.0", "2009-1", 1))
+        data.add(RecordsResponse("102.0", "2109-1", 1))
+
+    }
 
     @Test
     fun testDisplayOfUiText() {

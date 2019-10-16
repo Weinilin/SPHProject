@@ -1,5 +1,7 @@
 package com.example.sphproject;
 
+import android.os.Parcel;
+
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -11,6 +13,7 @@ import com.example.sphproject.Repository.MobileDataRepository;
 import com.example.sphproject.ViewModel.MobileDataViewModel;
 
 import org.bouncycastle.jcajce.provider.symmetric.ARC4;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -24,17 +27,15 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-@RunWith(RobolectricTestRunner.class)
-@Config(manifest = "AndroidManifest.xml", sdk = 24)
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class RepositoryTest {
     @Rule
     public TestRule rule = new InstantTaskExecutorRule();
-    @Mock
-    DataApi apiClient;
-    private MobileDataViewModel viewModel;
-
-    @Mock
-    MainActivity mainActivity;
     @Mock
     MobileDataRepository repository;
     @Mock
@@ -43,13 +44,11 @@ public class RepositoryTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        mainActivity = Robolectric.setupActivity(MainActivity.class);
-        viewModel = ViewModelProviders.of(mainActivity).get(MobileDataViewModel.class);
         repository = new MobileDataRepository();
     }
 
     @Test
-    public void testApiFetchDataFailure() {
+    public void testApiFailureObserverValue() {
         // Mock API response
         MobileDataRepository mock = Mockito.mock(MobileDataRepository.class);
         MutableLiveData<BaseResponse> newsData = new MutableLiveData<>();
@@ -66,7 +65,7 @@ public class RepositoryTest {
 
 
     @Test
-    public void testApiFetchDataSuccess() {
+    public void testApiSuccessObserverValue() {
         // Mock API response
         MobileDataRepository mock = Mockito.mock(MobileDataRepository.class);
         MutableLiveData<BaseResponse> newsData = new MutableLiveData<>();
@@ -79,6 +78,55 @@ public class RepositoryTest {
         Mockito.when(mock.getMobileVolData("", "")).thenReturn(newsData);
         mock.getMobileVolData("", "").observeForever(observer);
         Mockito.verify(observer).onChanged(baseResponse);
+    }
+
+
+    @Test
+    public void testApiFetchDataFailureResponse() {
+        // Mock API response
+        MobileDataRepository mock = Mockito.mock(MobileDataRepository.class);
+        MutableLiveData<BaseResponse> newsData = new MutableLiveData<>();
+        BaseResponse baseResponse = new BaseResponse(null, "Network Error", false);
+
+        newsData.setValue(
+                baseResponse
+        );
+        IOException failure =  new IOException("Network Error");
+        Call<DataResponse> networkError = Calls.failure(failure);
+        Mockito.when(mock.callMobileDataAPI("","")).thenReturn(networkError);
+
+        mock.callMobileDataAPI("","").enqueue(new Callback<DataResponse>() {
+            @Override
+            public void onResponse(Call<DataResponse> call, Response<DataResponse> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<DataResponse> call, Throwable t) {
+                Assert.assertEquals(t.getMessage(), "Network Error");
+            }
+        });
+    }
+
+    @Test
+    public void testApiFetchDataSuccessResponse() {
+        // Mock API response
+        MobileDataRepository mock = Mockito.mock(MobileDataRepository.class);
+        DataResponse dataResponse = new DataResponse("google.com", true, null);
+
+        Call<DataResponse> successRep = Calls.response(dataResponse);
+        Mockito.when(mock.callMobileDataAPI("","")).thenReturn(successRep);
+
+        mock.callMobileDataAPI("","").enqueue(new Callback<DataResponse>() {
+            @Override
+            public void onResponse(Call<DataResponse> call, Response<DataResponse> response) {
+                Assert.assertEquals(response.body().help, "google.com");
+            }
+
+            @Override
+            public void onFailure(Call<DataResponse> call, Throwable t) {
+            }
+        });
     }
 
 }

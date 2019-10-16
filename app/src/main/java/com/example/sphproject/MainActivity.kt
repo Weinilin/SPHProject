@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         if (response.isSuccess) {
             val data = response.serviceResponse.result.records
 
+            //so that all data could be fetched
             if (response.serviceResponse.result.total > total.toInt()) {
                 total = response.serviceResponse.result.total.toString()
                 isRecall = true
@@ -106,6 +107,7 @@ class MainActivity : AppCompatActivity() {
         return ""
     }
 
+    //see if the vol decreased
     fun hasDecreasedVol(prevVol: Double, vol: Double): Boolean {
         return prevVol > vol
     }

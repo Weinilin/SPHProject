@@ -13,7 +13,7 @@ public class NetworkHelper {
     public static String baseUrl = "https://data.gov.sg/api/action/";
 
     //set up retrofit
-    public Retrofit setRetrofit() {
+    private Retrofit setRetrofit() {
         return new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())

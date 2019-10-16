@@ -11,16 +11,16 @@ import retrofit2.Response
 
 
 class MobileDataRepository {
-
-    private val dataApi: DataApi
-
-    init {
-        dataApi = NetworkHelper().apiService
+    fun getDataApi() : DataApi {
+        return NetworkHelper().apiService
     }
 
+    fun callMobileDataAPI(source: String, key: String) : Call<DataResponse> {
+        return getDataApi().getMobileVol(source, key)
+    }
     fun getMobileVolData(source: String, key: String): MutableLiveData<BaseResponse> {
         val newsData = MutableLiveData<BaseResponse>()
-        dataApi.getMobileVol(source, key).enqueue(object : Callback<DataResponse> {
+        callMobileDataAPI(source, key).enqueue(object : Callback<DataResponse> {
             override fun onResponse(
                 call: Call<DataResponse>,
                 response: Response<DataResponse>

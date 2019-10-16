@@ -3,13 +3,12 @@ package com.example.sphproject.ViewModel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.sphproject.Repository.MobileDataRepository
 import com.example.sphproject.Models.BaseResponse
 
 
-class MobileDataViewModel(application: Application) : AndroidViewModel(application) {
-
-
+class MobileDataViewModel() : ViewModel() {
     var mutableLiveData: MutableLiveData<BaseResponse>? = null
     private var mobileDataRepository: MobileDataRepository? = null
 

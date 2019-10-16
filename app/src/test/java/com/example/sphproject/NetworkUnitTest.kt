@@ -101,7 +101,7 @@ class NetworkUnitTest {
         )
         mockWebServer.enqueue(successResponse)
         // Act
-        val product = apiService.getMobileVol(source, key).execute()
+        val product = NetworkHelper().getApiService().getMobileVol(source, key).execute()
 
         assertEquals(product.isSuccessful, true)
     }

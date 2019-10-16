@@ -26,7 +26,6 @@ class MobileDataRepository {
                 response: Response<DataResponse>
             ) {
                 if (response.isSuccessful()) {
-
                     newsData.setValue(
                         BaseResponse(
                             response.body(), response.message(), true

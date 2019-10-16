@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.example.sphproject.Adapter.MobileDataAdapter
+import com.example.sphproject.Models.BaseResponse
 import com.example.sphproject.ViewModel.MobileDataViewModel
 import com.example.sphproject.Models.DisplayDataModel
 import com.example.sphproject.Models.RecordsResponse
@@ -16,25 +17,39 @@ import java.util.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
+    private var total: String = "59"
+    private var isRecall = false
+    lateinit var mobileDataViewModel: MobileDataViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val mobileDataViewModel = ViewModelProviders.of(this).get(MobileDataViewModel::class.java)
-        mobileDataViewModel.init()
-        mobileDataViewModel.getMobileVolData()?.observe(this, Observer { response ->
-            if (response.isSuccess) {
-                val data = response.serviceResponse.result.records
-
-                setupRecyclerView(data)
-            } else {
-                Toast.makeText(applicationContext, response.errorMsg, Toast.LENGTH_LONG).show()
-            }
-        })
-
+        mobileDataViewModel = ViewModelProviders.of(this).get(MobileDataViewModel::class.java)
+        callAPI()
     }
 
+    private fun callAPI() {
+        if (isRecall)
+            mobileDataViewModel.getMobileVolData()?.removeObserver(observer)
+        mobileDataViewModel.init(total)
+        mobileDataViewModel.getMobileVolData()?.observe(this, observer)
+    }
+
+    val observer = Observer<BaseResponse> { response ->
+        if (response.isSuccess) {
+            val data = response.serviceResponse.result.records
+
+            if (response.serviceResponse.result.total > total.toInt()) {
+                total = response.serviceResponse.result.total.toString()
+                isRecall = true
+                callAPI()
+            } else {
+                setupRecyclerView(data)
+            }
+        } else {
+            Toast.makeText(applicationContext, response.errorMsg, Toast.LENGTH_LONG).show()
+        }
+    }
 
     fun setupRecyclerView(data: ArrayList<RecordsResponse>) {
         val recyclerView: RecyclerView = findViewById(R.id.list)
@@ -47,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.setAdapter(mAdapter)
     }
 
-    //
+    // calculation of the total vol per year
     fun addQuarterData(response: ArrayList<RecordsResponse>): ArrayList<DisplayDataModel> {
         val displayDataArray: ArrayList<DisplayDataModel> = arrayListOf()
         var tempYear = ""
